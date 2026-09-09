@@ -3,10 +3,14 @@ interface Props {
   id: string;
   name: string;
   description: string;
+  dot: string;
 }
-const { id, name, description } = Astro.props;
+const { id, name, description, dot } = Astro.props;
 ---
 <a class="tool-card" href={`/tools/${id}`}>
-  <strong>{name}</strong>
-  <span>{description}</span>
+  <span class="tool-name">
+    <span class="dot" style={`background:${dot}`}></span>
+    {name}
+  </span>
+  <span class="tool-desc">{description}</span>
 </a>

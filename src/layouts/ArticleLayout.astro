@@ -1,23 +1,24 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { isoDate } from '../lib/meta';
 
 interface Props {
   title: string;
   description: string;
   pubDate: Date;
   tags?: string[];
+  minutes?: string;
 }
-const { title, description, pubDate, tags = [] } = Astro.props;
+const { title, description, pubDate, tags = [], minutes } = Astro.props;
 ---
 <BaseLayout title={title} description={description}>
   <article class="prose">
-    <h1>{title}</h1>
-    <p>
-      <time datetime={pubDate.toISOString()}>
-        {pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-      </time>
+    <p class="mono">
+      <time datetime={pubDate.toISOString()}>{isoDate(pubDate)}</time>
+      {minutes && <span> · {minutes}</span>}
       {tags.length > 0 && <span> · {tags.join(', ')}</span>}
     </p>
+    <h1 style="font-size:clamp(34px,5vw,52px)">{title}</h1>
     <slot />
   </article>
 </BaseLayout>

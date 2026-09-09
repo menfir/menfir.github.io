@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { readingTime, isoDate } from '../../lib/meta';
 
 const articles = (await getCollection('articles', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -8,13 +9,14 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
 <BaseLayout title="Articles" description="Everything written here, newest first.">
   <h1>Articles</h1>
   <ul class="entry-list">
-    {articles.map((a) => (
+    {articles.map((a, i) => (
       <li>
-        <h3><a href={`/articles/${a.id}`}>{a.data.title}</a></h3>
-        <time datetime={a.data.pubDate.toISOString()}>
-          {a.data.pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-        </time>
-        <p>{a.data.description}</p>
+        <span class="num">{String(i + 1).padStart(2, '0')}</span>
+        <div class="entry-body">
+          <span class="mono">{isoDate(a.data.pubDate)} · {readingTime(a.body)}</span>
+          <h3><a href={`/articles/${a.id}`}>{a.data.title}</a></h3>
+          <p>{a.data.description}</p>
+        </div>
       </li>
     ))}
   </ul>
