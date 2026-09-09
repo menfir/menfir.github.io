@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import ToolCard from './ToolCard.astro';
+import { COFFEE_URL } from '../lib/site';
 import { dotFor } from '../lib/dots';
 
 // ponytail: sidebar links out only — embeds stay on /tools/[slug] so no page pays for them.
@@ -9,7 +10,7 @@ const tools = (await getCollection('tools')).sort((a, b) => a.data.name.localeCo
 <aside class="sidebar">
   <h2 class="eyebrow">Tools</h2>
   <p class="sidebar-note">Free, no accounts, mostly one file.</p>
-  <p class="coffee"><a href="#">☕ If a tool here saved you an evening — buy me a coffee.</a></p>
+  <p class="coffee"><a href={COFFEE_URL}>☕ If a tool here saved you an evening — buy me a coffee.</a></p>
   <div class="tool-list">
     {tools.map((t, i) => (
       <ToolCard id={t.id} name={t.data.name} description={t.data.description} dot={dotFor(i)} />

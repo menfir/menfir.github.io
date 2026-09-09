@@ -1,8 +1,9 @@
 ---
+import { COFFEE_URL } from '../lib/site';
+
 // ponytail: the coffee link is a plain text link on purpose — no button, no popup.
 // ponytail: design showed an RSS link too; there is no feed yet, so it is left out
 // rather than stubbed to a dead href.
-const coffeeUrl = '#';
 ---
 <footer class="site-footer">
   <div class="wrap">
@@ -10,7 +11,7 @@ const coffeeUrl = '#';
       <a href="/articles">Articles</a>
       <a href="/tools">Tools</a>
       <a href="/about">About</a>
-      <a href={coffeeUrl}>☕ If a tool here saved you an evening — buy me a coffee.</a>
+      <a href={COFFEE_URL}>☕ If a tool here saved you an evening — buy me a coffee.</a>
     </nav>
     <div class="colophon">built small, mostly at night</div>
   </div>
