@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import ToolCard from './ToolCard.astro';
+
+// ponytail: sidebar links out only — embeds stay on /tools/[slug] so no page pays for them.
+const tools = (await getCollection('tools')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+---
+<aside class="sidebar">
+  <h2>Tools</h2>
+  {tools.map((t) => <ToolCard id={t.id} name={t.data.name} description={t.data.description} />)}
+  <p><a href="/tools">All tools →</a></p>
+</aside>

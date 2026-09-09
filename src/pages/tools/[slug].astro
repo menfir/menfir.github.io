@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  return tools.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { name, description, link, embed, repoUrl } = entry.data;
+---
+<BaseLayout title={name} description={description}>
+  <article class="prose">
+    <h1>{name}</h1>
+    <p>{description}</p>
+    <p>
+      <a href={link}>Open the tool →</a>
+      {repoUrl && <span> · <a href={repoUrl}>Source</a></span>}
+    </p>
+    <Content />
+    {embed && <iframe class="embed" src={link} title={name} loading="lazy"></iframe>}
+  </article>
+</BaseLayout>

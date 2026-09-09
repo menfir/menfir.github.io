@@ -1,0 +1,12 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  description: string;
+}
+const { id, name, description } = Astro.props;
+---
+<a class="tool-card" href={`/tools/${id}`}>
+  <strong>{name}</strong>
+  <span>{description}</span>
+</a>

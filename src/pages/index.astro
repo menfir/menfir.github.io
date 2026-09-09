@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+<BaseLayout title="Jeroen Mabille" description="Small, practical tools built with AI assistance — and the thinking behind them.">
+  <p class="thesis">
+    Most useful ideas die at "not worth the effort." A vocabulary drill for my kid, a score card
+    generator for a boulder competition, a tool to review my own Magic games — none of these
+    justified a weekend of work before. AI changed that math. This is where I write about the small,
+    specific problems I've solved because building the fix finally got cheap enough to be worth it —
+    and share the tools themselves, in case one of them saves you the same evening.
+  </p>
+
+  <h2>Recent writing</h2>
+  <ul class="entry-list">
+    {articles.map((a) => (
+      <li>
+        <h3><a href={`/articles/${a.id}`}>{a.data.title}</a></h3>
+        <time datetime={a.data.pubDate.toISOString()}>
+          {a.data.pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+        </time>
+        <p>{a.data.description}</p>
+      </li>
+    ))}
+  </ul>
+  <p><a href="/articles">All articles →</a></p>
+</BaseLayout>

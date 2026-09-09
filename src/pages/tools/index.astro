@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolCard from '../../components/ToolCard.astro';
+
+const tools = (await getCollection('tools')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+---
+<BaseLayout title="Tools" description="Small tools, curated — not an exhaustive project list." sidebar={false}>
+  <h1>Tools</h1>
+  <p class="prose">A handful of things I built for myself. If one saves you an evening, it did its job.</p>
+  <div class="tools-grid">
+    {tools.map((t) => <ToolCard id={t.id} name={t.data.name} description={t.data.description} />)}
+  </div>
+</BaseLayout>
