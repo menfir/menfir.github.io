@@ -1,17 +1,34 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { AUTHOR } from '../../lib/site';
 
 export async function getStaticPaths() {
   const tools = await getCollection('tools');
-  return tools.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  return tools.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, others: tools.filter((t) => t.id !== entry.id) },
+  }));
 }
 
-const { entry } = Astro.props;
+const { entry, others } = Astro.props;
 const { Content } = await render(entry);
-const { name, description, link, embed, repoUrl } = entry.data;
+const { name, description, link, screenshot, repoUrl } = entry.data;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name,
+  description,
+  url: canonical,
+  author: { '@type': 'Person', name: AUTHOR },
+  ...(screenshot && { image: new URL(screenshot.src, Astro.site).href }),
+  ...(repoUrl && { codeRepository: repoUrl }),
+};
 ---
-<BaseLayout title={name} description={description}>
+<BaseLayout title={name} description={description} image={screenshot?.src}>
   <article class="prose">
     <h1>{name}</h1>
     <p>{description}</p>
@@ -19,7 +36,25 @@ const { name, description, link, embed, repoUrl } = entry.data;
       <a href={link}>Open the tool →</a>
       {repoUrl && <span> · <a href={repoUrl}>Source</a></span>}
     </p>
+    {screenshot && (
+      <>
+        <a href={link} class="shot">
+          <Image src={screenshot} alt={`Screenshot of ${name}`} widths={[480, 720]} sizes="(max-width: 700px) 100vw, 680px" />
+        </a>
+        <p class="shot-caption">Click the screenshot to open {name} →</p>
+      </>
+    )}
     <Content />
-    {embed && <iframe class="embed" src={link} title={name} loading="lazy"></iframe>}
+    {others.length > 0 && (
+      <section class="more-tools">
+        <h2>Other tools</h2>
+        <ul>
+          {others.map((t) => (
+            <li><a href={`/tools/${t.id}`}>{t.data.name}</a> — {t.data.description}</li>
+          ))}
+        </ul>
+      </section>
+    )}
   </article>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 </BaseLayout>

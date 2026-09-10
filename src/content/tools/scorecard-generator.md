@@ -2,7 +2,7 @@
 name: Score Card Generator
 description: Print-ready score cards for an indoor boulder competition, straight from the participant export.
 link: /scorecard-generator/
-embed: false
+screenshot: ../../assets/scorecard.png
 repoUrl: https://github.com/menfir/scorecard-generator
 ---
 

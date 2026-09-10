@@ -18,8 +18,8 @@
   --rule-dash: rgba(28, 35, 33, 0.22);
 
   --display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
-  --sans: 'DM Sans', system-ui, sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: 'DM Sans Variable', system-ui, sans-serif;
+  --mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
   --measure: 680px;
 }
 
@@ -290,13 +290,23 @@ code { font-family: var(--mono); }
 .site-footer a { color: var(--label); }
 .site-footer .colophon { font-family: var(--mono); font-size: 12px; color: var(--faint); }
 
-.embed {
-  width: 100%;
-  height: 520px;
+/* Screenshot linking through to the live tool, in place of an iframe embed. */
+.shot {
+  display: block;
+  margin: 24px 0;
   border: 1px solid var(--rule);
   border-radius: 6px;
   background: var(--card);
+  overflow: hidden;
 }
+/* Cropped to a preview strip: this is a "click through to the real thing" teaser,
+   not an embed, so it shows the top of the app and stops. */
+.shot img { display: block; width: 100%; height: 300px; object-fit: cover; object-position: top center; }
+.shot:hover { border-color: var(--body); }
+.shot-caption { margin: -16px 0 24px; font-family: var(--mono); font-size: 12px; color: var(--faint); }
+
+.more-tools { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--rule); }
+.more-tools ul { padding-left: 18px; }
 
 @media (max-width: 780px) {
   /* stacked: the sidebar is just the last block, so it should fill the column and not stick */

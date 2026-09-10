@@ -2,7 +2,7 @@
 name: Maaltafels
 description: Times tables 1–12, scheduled on recall speed rather than on right-or-wrong alone.
 link: /maaltafels/
-embed: true
+screenshot: ../../assets/maaltafels.png
 repoUrl: https://github.com/menfir/maaltafels
 ---
 

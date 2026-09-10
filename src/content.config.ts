@@ -16,13 +16,16 @@ const articles = defineCollection({
 
 const tools = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/tools' }),
-  schema: z.object({
-    name: z.string(),
-    description: z.string(),
-    link: z.string(),
-    embed: z.boolean().default(false),
-    repoUrl: z.string().optional(),
-  }),
+  // image() resolves the path against src/assets and hands Astro the dimensions,
+  // so <Image> can emit width/height and avoid layout shift.
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      link: z.string(),
+      screenshot: image().optional(),
+      repoUrl: z.string().optional(),
+    }),
 });
 
 export const collections = { articles, tools };

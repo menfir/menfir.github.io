@@ -23,6 +23,10 @@ jobs:
         with:
           # Astro 7 requires Node >=22.12; the action defaults to 20.
           node-version: 22
+      # Standing SEO/GDPR checklist (seo-gdpr-spec.md). Fails the deploy if a new
+      # page ships without canonical/description/og tags, or pulls in a third-party
+      # subresource that would put us back in cookie-banner territory.
+      - run: bash scripts/check-seo.sh dist
 
   deploy:
     needs: build
