@@ -2,28 +2,52 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Sidebar from '../components/Sidebar.astro';
+// Fonts are self-hosted: loading them from fonts.googleapis.com would send every
+// visitor's IP to Google, which needs consent we don't want to ask for.
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/barlow-condensed/800.css';
+import '@fontsource/barlow-condensed/900.css';
+import '@fontsource-variable/dm-sans';
+import '@fontsource-variable/dm-sans/wght-italic.css';
+import '@fontsource-variable/jetbrains-mono';
 import '../styles/global.css';
+
+import { SITE_NAME } from '../lib/site';
 
 interface Props {
   title: string;
   description?: string;
   sidebar?: boolean;
+  /** Social-preview image. Tool pages pass their screenshot; other pages have none. */
+  image?: string;
+  ogType?: 'website' | 'article';
 }
-const { title, description = '', sidebar = true } = Astro.props;
+const { title, description = '', sidebar = true, image, ogType = 'website' } = Astro.props;
+
+// Astro.site is the www host, so every canonical points there and menfir.github.io
+// (which 301s here) never competes for the same content in the index.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
 ---
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap"
-    />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {/* title/description/image fall back to the og: tags, so only the card type is worth setting. */}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
   </head>
   <body>
     <Header />

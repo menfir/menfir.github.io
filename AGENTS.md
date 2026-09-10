@@ -20,3 +20,11 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## SEO & GDPR checklist
+
+`seo-gdpr-spec.md` is a standing requirement, not a one-time task. Before merging
+any new page type, form, embed, or third-party script, re-check it against the
+diff. The mechanical parts are enforced by `npm run check:seo` (also runs in CI
+before deploy); the judgement calls — a new form, a new embed, anything that
+sends visitor data off-origin — still need a human read of Part 1.

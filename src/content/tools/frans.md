@@ -2,11 +2,11 @@
 name: Frans oefenen
 description: French vocabulary practice in both directions, on a Leitner schedule, with the French word read aloud.
 link: /frans/
-embed: true
+screenshot: ../../assets/frans.png
 repoUrl: https://github.com/menfir/frans
 ---
 
-French vocabulary drill for my daughter. Words go both ways — French to Dutch and
+French vocabulary drill for my kids. Words go both ways — French to Dutch and
 Dutch to French — and a Leitner schedule decides what comes back and when, so the
 words she already knows stop taking up her time.
 

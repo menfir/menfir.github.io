@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { isoDate } from '../lib/meta';
+import { AUTHOR } from '../lib/site';
 
 interface Props {
   title: string;
@@ -10,8 +11,19 @@ interface Props {
   minutes?: string;
 }
 const { title, description, pubDate, tags = [], minutes } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: isoDate(pubDate),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  author: { '@type': 'Person', name: AUTHOR },
+  ...(tags.length > 0 && { keywords: tags.join(', ') }),
+};
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} ogType="article">
   <article class="prose">
     <p class="mono">
       <time datetime={pubDate.toISOString()}>{isoDate(pubDate)}</time>
@@ -21,4 +33,5 @@ const { title, description, pubDate, tags = [], minutes } = Astro.props;
     <h1 style="font-size:clamp(34px,5vw,52px)">{title}</h1>
     <slot />
   </article>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 </BaseLayout>
