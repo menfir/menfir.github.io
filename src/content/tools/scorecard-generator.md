@@ -14,6 +14,10 @@ francophone participants.
 It replaced a Word template, a mail merge, and someone writing boulder numbers on
 sixty cards by hand the night before.
 
+The [scanner](/scorecard-generator/scan.html) handles the other end: it reads the
+filled-in score cards and exports the results. The goal is to upload that export
+to Etto later on.
+
 Three constraints shaped it, and all three pushed the same way — toward one HTML
 file with no build step:
 
