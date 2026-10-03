@@ -3,6 +3,7 @@ name: Score Card Generator
 description: Print-ready score cards for an indoor boulder competition, straight from the participant export.
 link: /scorecard-generator/
 screenshot: ../../assets/scorecard.png
+scanLink: /scorecard-generator/scan.html
 repoUrl: https://github.com/menfir/scorecard-generator
 ---
 
@@ -27,3 +28,6 @@ file with no build step:
   parsing and rendering is client-side; at runtime there is no network call to
   make, because there is nothing to call.
 - **Printing is the browser's job.** Ctrl+P, save as PDF, done. No PDF library.
+
+The scanner works the same way: it runs offline, and the scanned cards never leave
+the device.

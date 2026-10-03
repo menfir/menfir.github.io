@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 
 const { entry, others } = Astro.props;
 const { Content } = await render(entry);
-const { name, description, link, screenshot, repoUrl } = entry.data;
+const { name, description, link, scanLink, screenshot, repoUrl } = entry.data;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const jsonLd = {
@@ -34,6 +34,7 @@ const jsonLd = {
     <p>{description}</p>
     <p>
       <a href={link}>Open the tool →</a>
+      {scanLink && <span> · <a href={scanLink}>Open the scanner →</a></span>}
       {repoUrl && <span> · <a href={repoUrl}>Source</a></span>}
     </p>
     {screenshot && (
