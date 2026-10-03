@@ -25,6 +25,7 @@ const tools = defineCollection({
       link: z.string(),
       screenshot: image().optional(),
       repoUrl: z.string().optional(),
+      scanLink: z.string().optional(),
     }),
 });
 
